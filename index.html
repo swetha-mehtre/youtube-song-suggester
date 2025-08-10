@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Song Suggester</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        form {
+            background-color: #ff0000; /* YouTube Red */
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label,
+        select {
+            margin-right: 10px;
+            color: purple;
+            font-size: 18px;
+        }
+
+        input[type="submit"] {
+            padding: 10px 15px;
+            background-color: #ff0000; /* YouTube Red */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #e60000;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 5px 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: white; /* White text */
+            padding: 5px;
+            background-color: #ff0000; /* YouTube Red */
+            border-radius: 4px;
+            display: block;
+        }
+
+        a:hover {
+            background-color: #e60000;
+        }
+
+        .song-list {
+            margin-top: 20px;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px; /* Limit width */
+            width: 100%; /* Full width for mobile */
+        }
+
+        .spark {
+            position: absolute;
+            background-color: green;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            animation: sparkle 0.5s ease forwards;
+        }
+
+        @keyframes sparkle {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(1); opacity: 0; }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>YouTube Song Suggester Based on Mood</h1>
+    <form id="moodForm" action="/" method="post">
+        <label for="mood">Select your mood:</label>
+        <select name="mood" id="mood" required>
+            <option value="Happy">Happy</option>
+            <option value="Sad">Sad</option>
+            <option value="Excited">Excited</option>
+            <option value="Angry">Angry</option>
+        </select>
+        <input type="submit" value="Get Songs">
+    </form>
+
+    {% if songs %}
+        <div class="song-list">
+            <h2>Suggested Songs:</h2>
+            <ul>
+                {% for song in songs %}
+                    <li><a href="{{ song }}" target="_blank">{{ song }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <script>
+        // Add spark effect on button click
+        const form = document.getElementById('moodForm');
+        form.addEventListener('submit', function(event) {
+            const button = event.target.querySelector('input[type="submit"]');
+            const spark = document.createElement('div');
+            spark.className = 'spark';
+            spark.style.left = button.offsetLeft + button.offsetWidth / 2 - 10 + 'px';
+            spark.style.top = button.offsetTop + button.offsetHeight / 2 - 10 + 'px';
+            document.body.appendChild(spark);
+            setTimeout(() => {
+                spark.remove();
+            }, 500);
+        });
+    </script>
+</body>
+
+</html>
